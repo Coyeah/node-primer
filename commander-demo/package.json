@@ -1,0 +1,24 @@
+{
+  "name": "commander-demo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "jarvis": "./bin/jarvis-cli"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config ./build/webpack.prod.config.js --progress --profile --color"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "author": "coyeah",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "commander": "^2.17.1"
+  }
+}

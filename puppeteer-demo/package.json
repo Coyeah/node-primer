@@ -1,6 +1,6 @@
 {
-  "name": "puppeteer",
-  "version": "1.0.0",
+  "name": "puppeteer-demo",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
