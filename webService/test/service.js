@@ -1,5 +1,4 @@
-let POST = 3000;
-
+let PORT = 3000;
 let http = require('http');
 let server = http.createServer();
 
@@ -27,6 +26,6 @@ server.on('request', function (req, res) {
   }
 });
 
-server.listen(POST, function () {
-  console.log(`http://127.0.0.1:${POST}`);
+server.listen(PORT, function () {
+  console.log(`http://127.0.0.1:${PORT}`);
 });
