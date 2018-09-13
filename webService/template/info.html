@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>NodeJS</title>
+</head>
+
+<body>
+  <div>
+    <button id="btn1">获取数据</button> by get
+  </div>
+  <div>
+    <button id="btn2">获取数据</button> by post
+  </div>
+  <div id="box"></div>
+  <script>
+    var oBtn1 = document.getElementById('btn1');
+    var oBtn2 = document.getElementById('btn2');
+    var oBox = document.getElementById('box');
+
+    // ===== ajax - get ===== //
+    /*
+    oBtn1.onclick = function () {
+      var xhr = null;
+      try {
+        xhr = new XMLHttpRequest();
+      } catch (e) {
+        // IE浏览器
+        xhr = new ActiveXobject('Microsoft.XMLHTTP');
+      }
+      xhr.open('GET', '/info/data?username=coyeah', true);
+      xhr.setRequestHeader('Content-Type', 'apaplication/x-www-form-urlencoded');
+      xhr.send();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          oBox.innerText = xhr.responseText;
+        }
+      }
+    }
+    */
+    oBtn1.onclick = function () {
+      ajax('GET', '/info/data', 'username=coyeah', function (xhr) {
+        oBox.innerText = xhr.responseText;
+      });
+    }
+    // ===== ajax - post ===== //
+    /*
+    oBtn2.onclick = function () {
+      var data = {
+        username: 'coyeah'
+      };
+
+      var xhr = null;
+      try {
+        xhr = new XMLHttpRequest();
+      } catch (e) {
+        // IE浏览器
+        xhr = new ActiveXobject('Microsoft.XMLHTTP');
+      }
+      xhr.open('POST', '/info/data', true);
+      xhr.setRequestHeader('Content-Type', 'apaplication/x-www-form-urlencoded');
+      xhr.send(JSON.stringify(data));
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          oBox.innerText = xhr.responseText;
+        }
+      }
+    }
+    */
+    oBtn2.onclick = function () {
+      var data = {
+        username: 'coyeah'
+      };
+
+      ajax('POST', '/info/data', data, function (xhr) {
+        oBox.innerText = xhr.responseText;
+      });
+    }
+    // ajax 封装
+    function ajax(method, url, data, fn) {
+      var xhr = null;
+      try {
+        xhr = new XMLHttpRequest();
+      } catch(e) {
+        xhr = new ActiveXobject('Microsoft.XMLHTTP');
+      }
+      if (!method || method == 'GET') {
+        method = 'GET';
+        if (data) {
+          url = url + '?' + data
+        }
+        xhr.open(method, url, true);
+        xhr.send();
+      } else if (method == 'POST') {
+        method = 'POST';
+        xhr.open(method, url, true);
+        if (data) {
+          xhr.send(JSON.stringify(data));
+        } else {
+          xhr.send();
+        }
+      }
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var data = JSON.parse(xhr.responseText);
+          fn && fn(xhr);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
