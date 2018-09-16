@@ -7,10 +7,9 @@ const server = http.createServer();
 const conf = require('./config/defaultConfig');
 
 server.on('request', function (req, res) {
-  console.log(`Get a request, info => ${req.url} || ${req.socket.remotePort} || ${req.socket.remoteAddress}`);
+  console.log(`Get a request, info => ${req.url} || ${req.method} || ${req.socket.remotePort} || ${req.socket.remoteAddress}`);
 
   let urlObj = url.parse(req.url);
-  console.log(req.method);
 
   switch (urlObj.pathname) {
     case '/': {
@@ -21,8 +20,7 @@ server.on('request', function (req, res) {
       break;
     }
     case '/search': {
-      let obj = queryString.parse(url.parse(req.url).query);
-      console.log(obj);
+      let obj = queryString.parse(urlObj.query);
       res.end(JSON.stringify(obj));
       break;
     }
@@ -39,7 +37,28 @@ server.on('request', function (req, res) {
       break;
     }
     case '/info': {
-      res.end('info.page');
+      fs.readFile('./template/info.html', 'utf-8', function (err, data) {
+        if (err) throw err;
+        res.end(data);
+      })
+      break;
+    }
+    case '/info/data': {
+      switch (req.method) {
+        case 'GET': {
+          let obj = queryString.parse(urlObj.query);
+          res.end(JSON.stringify(obj));
+        }
+        case 'POST': {
+          let postData = '';
+          req.on('data', function (datachunk) {
+            postData += datachunk;
+          });
+          req.on('end', function () {
+            res.end(postData);
+          });
+        }
+      }
       break;
     }
     default: {

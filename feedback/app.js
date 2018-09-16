@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
+const queryString = require('querystring');
 
 const template = require('art-template');
 
@@ -63,16 +64,30 @@ http
         }
       case '/message/post':
         {
-          comments.unshift({
-            ...urlObj.query,
-            dateTime: '2018-09-15'
+          // comments.unshift({
+          //   ...urlObj.query,
+          //   dateTime: '2018-09-15'
+          // })
+
+          let postData = '';
+          req.on('data', function(datachunk) {
+            postData += datachunk;
+          });
+          req.on('end', function() {
+            let data = queryString.parse(postData);
+            comments.unshift({
+              ...data,
+              dateTime: '2018-09-15'
+            })
+
+            // 服务器让客户端重定向
+            // * 状态码设置为302临时重定向
+            // * 在响应头中通过 Location 告诉状态码往哪重定向
+            res.statusCode = 302;
+            res.setHeader('Location', '/');
+            res.end();
           })
-          // 服务器让客户端重定向
-          // * 状态码设置为302临时重定向
-          // * 在响应头中通过 Location 告诉状态码往哪重定向
-          res.statusCode = 302;
-          res.setHeader('Location', '/');
-          res.end();
+
           break;
         }
       default:
