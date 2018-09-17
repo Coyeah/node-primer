@@ -141,6 +141,7 @@ mongo
 * `db` > 查看当前操作的数据库
 * `use '数据库名称'` > 切换到指定的数据（如果没有会新建）
 
+官网：[传送门](https://www.mongodb.com/)
 参考资料：[传送门](http://www.runoob.com/mongodb/mongodb-tutorial.html)
 
 #### NodeJS 操作

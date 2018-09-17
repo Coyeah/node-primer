@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>NodeJS</title>
+  <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/css/style.css">
+
+</head>
+
+<body>
+  <div class="row">
+    <div class="col-md-3 col-sm-2 col-xs-1"></div>
+    <div class="col-md-6 col-sm-8 col-xs-10">
+      <h2>留言系统<a class="btn btn-success pull-right" href="/send" role="button">发布留言</a></h2>
+      <hr />
+      <ul class="list-group">
+        {{ each comments }}
+        <li class="list-group-item">
+          <p class="message">{{ $value.message }}</p>
+          <p>{{ $value.email }} | {{ $value.status ? '已读' : '未读' }}<span class="pull-right">{{ $value.dateTime }}</span></p>
+          <p><a class="btn btn-primary btn-xs" href="/message/edit?id={{ $value.id }}" role="button">编辑</a> <a class="btn btn-danger btn-xs" href="/message/delete?id={{ $value.id }}" role="button">删除</a></p>
+        </li>
+        {{ /each }}
+      </ul>
+    </div>
+    <div class="col-md-3 col-sm-2 col-xs-1"></div>
+  </div>
+</body>
+
+</html>

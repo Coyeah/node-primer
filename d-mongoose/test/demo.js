@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
 // 连接 mongodb 数据库
+// localhost => 本机
+// test => 数据库
 mongoose.connect('mongodb://localhost/test');
 
 // 创建一个模型，即设计数据库
