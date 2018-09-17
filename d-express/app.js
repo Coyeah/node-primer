@@ -29,6 +29,14 @@ app.use('/public', express.static('public'));
 // 把路由容器挂载到 app 上
 app.use(router);
 
+// 通过中间件，定制 404 页面
+// 需要放在路由容器之后，顺序检测
+app.use(function (req, res) {
+  res.type('text/html');
+  res.status(404);
+  res.render('404.html');
+});
+
 app.listen(3000, function () {
   console.log('app is running at port 3000');
 });
