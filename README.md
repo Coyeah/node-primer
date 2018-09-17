@@ -69,3 +69,86 @@
 * npm5 以后不必要使用 `-S` / `--save`，自动保存依赖信息
 * package-lock.json 会保存 node_modules 中所有包的信息（版本、下载地址），以至于重新 `npm install` 的速度会提升
 * package-lock.json 可以防止版本升级，锁定版本。
+
+### 关系型数据库和非关系型数据库
+
+表就是关系，或者说表与表之间存在的关系。
+
+关系型数据库：
+
+* 需要通过 `sql` 语言来操作
+* 在操作之前都需要设计表结构
+* 数据表支持约束
+  * 唯一的
+  * 主键
+  * 默认值
+  * 非空
+
+非关系型数据库：
+
+* 灵活
+* 部分非关系型数据库就是键值对（key - value）
+* MongoDB 是长得最像关系型数据的非关系型数据库
+  * 数据库 > 数据库
+  * 数据表 > 集合（数组）
+  * 表记录 > （文档对象）
+* MongoDB 不需要设计表结构
+
+
+### MongoDB
+
+* 可以有多个数据库
+* 一个数据库中可以有多个集合（表）
+* 一个集合可以有多个文档（表记录）
+* 文档结构灵活，没有限制。不需要像 `MySQL` 先创建数据库、表，设计表结构
+
+#### 命令行操作
+
+启动：
+
+```shell
+# MongoDB 默认使用执行 mongod 命令所处盘符根目录下的 /data/db 作为自己的数据存储目录
+# 所以在第一次执行该命令之前先手动新建一个 /data/db
+
+mongod
+```
+
+如果想要修改默认的数据存储目录，可以：
+
+```shell
+mongod --dbpath=数据存储目录路径
+```
+
+停止：
+
+```shell
+# Ctrl + c
+```
+
+连接与退出数据库:
+
+```shell
+# 默认连接本机的 mongodb
+
+mongo
+
+# 在连接状态数据 exit 退出连接
+```
+
+基本命令:
+
+* `show dbs` > 查看显示所有数据库
+* `db` > 查看当前操作的数据库
+* `use '数据库名称'` > 切换到指定的数据（如果没有会新建）
+
+参考资料：[传送门](http://www.runoob.com/mongodb/mongodb-tutorial.html)
+
+#### NodeJS 操作
+
+使用官方的 MongoDB 包进行操作。
+
+[https://github.com/mongodb/node-mongodb-native](https://github.com/mongodb/node-mongodb-native)
+
+使用第三方 `mongoose` 来操作 MongoDB 数据库。基于官方的 mongodb 包再一次封装。
+
+[https://mongoosejs.com/](https://mongoosejs.com/)
