@@ -1,4 +1,5 @@
 // 引用包
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = require('./router');
@@ -8,9 +9,13 @@ const router = require('./router');
 const app = express();
 
 // 配置实用 art-template 模版引擎
+// 注册指定扩展名的模板引擎
 // 第一个参数，表示，渲染以 .art 结尾的文件使用 art-template 模版引擎
 // express-art-template
 app.engine('html', require('express-art-template'));
+// res.render() 的默认目录路径就是 views
+// 可通过该方法修改默认
+app.set('views', path.join(__dirname, './views'));
 
 // 配置 body-body-parser
 // 配置后会在 req 请求对象上多出一个属性：body
@@ -24,7 +29,7 @@ app.use(bodyParser.json());
 // 不指定路径，不需要以 '/public/' 开头
 // app.use(express.static(__dirname + '/public/'));
 // 指定路径 => /public/*
-app.use('/public', express.static('public'));
+app.use('/public', express.static(path.join(__dirname, './public')));
 
 // 把路由容器挂载到 app 上
 app.use(router);
