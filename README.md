@@ -12,6 +12,12 @@
 
 使用 nodeJS 原生写的一个留言板服务器练习。
 
+### topic
+
+Node 综合 Web 实践。
+
+[项目传送门](https://github.com/Coyeah/node-topic)
+
 ### d-express
 
 基于 express 包的一个留言板服务器练习。
@@ -94,6 +100,52 @@
   * 表记录 > （文档对象）
 * MongoDB 不需要设计表结构
 
+### Node 知识点
+
+#### path 路径操作模块
+
+* path.basename
+  * 获取一个路径中的文件名（默认包含拓展名）
+* path.dirname
+  * 获取一个路径中的目录部分
+* path.extname
+  * 获取一个路径中的拓展名部分
+* path.parse
+  * 把一个路径转换为对象
+    * root  > 根目录
+    * dir   > 目录
+    * base  > 包含后缀名的文件名
+    * ext   > 后缀名
+    * name  > 不包含后缀名的文件名
+* path.join
+  * 当你需要进行路径拼接的时候，建议使用这个方法
+* path.isAbsolute
+  * 判断一个路径是否为绝对路径
+
+参考文档：[传送门](http://nodejs.cn/api/path.html)
+
+#### Node 中的其他成员
+
+在每个模块中，除了 `require`、`exports` 等模块相关 API 以外，还有两个特殊成员：
+
+* `__dirname`  > 可以用于获取当前文件模块所属目录的绝对路径 * 动态获取
+* `__filename` > 可以用来获取当前文件的绝对路径 * 动态获取
+* `__dirname` 和 `__filename` 是不受执行 node 命令所属路径的影响
+
+在文件操作中，使用相对路径是不可靠的，因为在 Node 中文件操作的路径被设计为相对于执行 node 命令所处的路径（no bug）。
+
+为了解决这个问题，只需要把相对路径转变为绝对路径即可。
+
+```JavaScript
+__dirname + '/code.js' // c:\code.js
+```
+
+为了避免以上问题，在文件操作中使用相对路径都统一转换为**动态的绝对路径**。
+
+在模块的路径标识和文件操作中的相对路径标识不一样。
+```JavaScript
+require(./code.js) // 执行 node 命令所属路径的影响
+```
 
 ### MongoDB
 
@@ -157,50 +209,8 @@ mongo
 
 [https://mongoosejs.com/](https://mongoosejs.com/)
 
+### Express 中间件
 
-### Node 知识点
+中间件的本质就是一个请求处理方法，把用户从请求到相应的整个过程分发到多个中间件去处理，目的是为了提高代码灵活性，动态可拓展。
 
-#### path 路径操作模块
-
-* path.basename
-  * 获取一个路径中的文件名（默认包含拓展名）
-* path.dirname
-  * 获取一个路径中的目录部分
-* path.extname
-  * 获取一个路径中的拓展名部分
-* path.parse
-  * 把一个路径转换为对象
-    * root  > 根目录
-    * dir   > 目录
-    * base  > 包含后缀名的文件名
-    * ext   > 后缀名
-    * name  > 不包含后缀名的文件名
-* path.join
-  * 当你需要进行路径拼接的时候，建议使用这个方法
-* path.isAbsolute
-  * 判断一个路径是否为绝对路径
-
-参考文档：[传送门](http://nodejs.cn/api/path.html)
-
-#### Node 中的其他成员
-
-在每个模块中，除了 `require`、`exports` 等模块相关 API 以外，还有两个特殊成员：
-
-* `__dirname`  > 可以用于获取当前文件模块所属目录的绝对路径 * 动态获取
-* `__filename` > 可以用来获取当前文件的绝对路径 * 动态获取
-* `__dirname` 和 `__filename` 是不受执行 node 命令所属路径的影响
-
-在文件操作中，使用相对路径是不可靠的，因为在 Node 中文件操作的路径被设计为相对于执行 node 命令所处的路径（no bug）。
-
-为了解决这个问题，只需要把相对路径转变为绝对路径即可。
-
-```JavaScript
-__dirname + '/code.js' // c:\code.js
-```
-
-为了避免以上问题，在文件操作中使用相对路径都统一转换为**动态的绝对路径**。
-
-在模块的路径标识和文件操作中的相对路径标识不一样。
-```JavaScript
-require(./code.js) // 执行 node 命令所属路径的影响
-```
+\* 同一个请求所经过的中间件都是同一个请求对象和响应对象。
